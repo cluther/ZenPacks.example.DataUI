@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser">
+
+    <!-- Register our custom JSON API endpoint (router). -->
+    <browser:directRouter
+        name="example_DataUI_router"
+        for="*"
+        class=".api.DataUIRouter"
+        namespace="Zenoss.remote"
+        permission="zenoss.View"
+        />
+
+</configure>
