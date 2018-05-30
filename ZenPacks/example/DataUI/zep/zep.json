@@ -1,0 +1,9 @@
+{
+  "EventDetailItem" : [
+    {
+      "name" : "Example Number",
+      "key" : "example.DataUI.number",
+      "type" : 1
+    }
+  ]
+}

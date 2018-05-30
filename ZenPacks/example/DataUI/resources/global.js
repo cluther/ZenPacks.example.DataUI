@@ -1,5 +1,7 @@
 (function(){
 
+    var URL = null;
+
     // Wait for ExtJS framework to be ready.
     Ext.onReady(function() {
 
@@ -17,6 +19,11 @@
                         dialog.loadAndShow();
                     }
                 });
+            });
+
+            // Load the configured URL for our column renderer to use.
+            Zenoss.remote.DataUIRouter.loadSettings({}, function(response) {
+                URL = response.data.url;
             });
         });
     });
@@ -80,5 +87,35 @@
                 this);
         }
     });
+
+
+    // Custom event column and detail renderer.
+    function numberRenderer(value) {
+        // Create a link if we have a URL and number.
+        if (URL && value) {
+            return Ext.String.format(
+                "<a href='{0}/{1}' target='_blank'>{1}</a>",
+                URL, value);
+        }
+
+        // Just use the number if that's all we have.
+        if (value) {
+            return value;
+        }
+
+        return "n/a";
+    }
+
+    // Register our custom event column renderer.
+    Zenoss.events.registerCustomColumn("example.DataUI.number", {
+        renderer: numberRenderer
+    });
+
+    // Register our custom event detail renderer.
+    if (!Zenoss.hasOwnProperty('event_detail_custom_renderers')) {
+        Zenoss.event_detail_custom_renderers = {};
+    }
+
+    Zenoss.event_detail_custom_renderers["example.DataUI.number"] = numberRenderer
 
 })();
